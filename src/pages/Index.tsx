@@ -1,11 +1,9 @@
-
 import { useEffect } from 'react';
 import Hero from '../components/Hero';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Heart, Clock, Shield, Video, UserCheck, CheckCircle, Package } from 'lucide-react';
+import { ArrowRight, Heart, Clock, Shield, Video, UserCheck, CheckCircle, Package, Star } from 'lucide-react';
 
 const Index = () => {
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
