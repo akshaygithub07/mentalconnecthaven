@@ -12,7 +12,6 @@ import os
 
 load_dotenv()  
 # Your Groq API key
-# GROQ_API_KEY = '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'
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 app = Flask(__name__)
