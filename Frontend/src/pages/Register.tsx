@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { Toaster, toast } from "sonner"; // For notifications
+import { Toaster, toast } from "sonner";
 import { auth } from "../firebase/firebase";
 
 const AuthPage = () => {
@@ -22,16 +22,14 @@ const AuthPage = () => {
   const [nameError, setNameError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  const validatePassword = (password: string) => {
-    return password.length >= 8;
-  };
+  const validatePassword = (password: string) => password.length >= 8;
 
   const handleToggleSignUp = () => {
     setIsSignUp(!isSignUp);
@@ -89,28 +87,18 @@ const AuthPage = () => {
     }
 
     if (isValid) {
-      setLoading(true); // Set loading to true before starting
+      setLoading(true);
       try {
         if (isSignUp) {
-          // Firebase Sign Up
-          const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          console.log("Sign Up Successful:", userCredential.user);
+          await createUserWithEmailAndPassword(auth, email, password);
+          console.log("Sign Up Successful:");
           toast.success("Account created successfully!");
         } else {
-          // Firebase Sign In
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          console.log("Sign In Successful:", userCredential.user);
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log("Sign In Successful:");
           toast.success("Logged in successfully!");
         }
-        // Reset form and errors on success.  Important!
+
         setEmail("");
         setPassword("");
         setConfirmPassword("");
@@ -121,7 +109,6 @@ const AuthPage = () => {
         setNameError("");
       } catch (error: any) {
         console.error("Error:", error);
-        // Handle Firebase errors
         switch (error.code) {
           case "auth/email-already-in-use":
             setEmailError("Email is already in use");
@@ -142,18 +129,20 @@ const AuthPage = () => {
             toast.error("An error occurred. Please try again.");
         }
       } finally {
-        setLoading(false); // Set loading to false after operation completes
+        setLoading(false);
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-calm-50 flex justify-center py-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex justify-center py-24 px-4 sm:px-6 lg:px-8">
+      <div className="absolute -bottom-0 -left-40 w-96 h-96 bg-wellness-100 rounded-full opacity-70 blur-3xl" />
+      <div className="absolute -top-0 -right-40 w-96 h-96 bg-wellness-100 rounded-full opacity-70 blur-3xl" />
       <Toaster richColors />
-      <div className="max-w-md w-full space-y-8 p-8 rounded-lg">
+      <div className="max-w-md w-full space-y-8 p-8 rounded-lg bg-white shadow-lg">
         <div>
           <h1
-            className="text-4xl md:text-5xl lg:text-6xl text-center font-bold text-calm-900 leading-tight opacity-0 animate-slide-up"
+            className="text-4xl text-mind-600 md:text-5xl lg:text-6xl text-center font-bold text-calm-900 leading-tight opacity-0 animate-slide-up"
             style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
           >
             {isSignUp ? "Sign Up" : "Sign In"}
@@ -171,7 +160,7 @@ const AuthPage = () => {
               className={cn(
                 "w-1/2",
                 isSignUp
-                  ? "bg-mind-600 text-white border-mind-600"
+                  ? "bg-mind-600 text-white border-mind-600 hover:bg-mind-600 hover:text-white"
                   : "bg-white text-calm-700 border-calm-300 hover:bg-calm-100"
               )}
             >
@@ -184,7 +173,7 @@ const AuthPage = () => {
               className={cn(
                 "w-1/2",
                 !isSignUp
-                  ? "bg-mind-600 text-white border-mind-600"
+                  ? "bg-mind-600 text-white border-mind-600 hover:bg-mind-600 hover:text-white"
                   : "bg-white text-calm-700 border-calm-300 hover:bg-calm-100"
               )}
             >
@@ -194,9 +183,6 @@ const AuthPage = () => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {isSignUp && (
               <div>
-                {/* <label htmlFor="name" className="sr-only">
-                  Name
-                </label>
                 <Input
                   id="name"
                   name="name"
@@ -205,13 +191,13 @@ const AuthPage = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
+                  placeholder="Full Name"
                   className={cn(
                     "appearance-none rounded-md relative block w-full px-3 py-3 text-calm-900 border border-calm-300 placeholder-calm-500 focus:outline-none focus:ring-mind-500 focus:border-mind-500 focus:z-10 sm:text-sm",
                     nameError &&
                       "border-red-500 focus:ring-red-500 focus:border-red-500"
                   )}
-                /> */}
+                />
                 {nameError && (
                   <p className="mt-2 text-sm text-red-600" id="name-error">
                     {nameError}
@@ -220,9 +206,6 @@ const AuthPage = () => {
               </div>
             )}
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
               <Input
                 id="email-address"
                 name="email"
@@ -245,37 +228,35 @@ const AuthPage = () => {
               )}
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className={cn(
-                  "appearance-none rounded-md relative block w-full px-3 py-3 text-calm-900 border border-calm-300 placeholder-calm-500 focus:outline-none focus:ring-mind-500 focus:border-mind-500 focus:z-10 sm:text-sm",
-                  passwordError &&
-                    "border-red-500 focus:ring-red-500 focus:border-red-500"
-                )}
-              />
-              {/* <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="focus:outline-none"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-calm-400" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-calm-400" />
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  className={cn(
+                    "appearance-none rounded-md relative block w-full px-3 py-3 text-calm-900 border border-calm-300 placeholder-calm-500 focus:outline-none focus:ring-mind-500 focus:border-mind-500 focus:z-10 sm:text-sm",
+                    passwordError &&
+                      "border-red-500 focus:ring-red-500 focus:border-red-500"
                   )}
-                </button>
-              </div> */}
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-calm-500" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-calm-500" />
+                    )}
+                  </button>
+                </div>
+              </div>
               {passwordError && (
                 <p className="mt-2 text-sm text-red-600" id="password-error">
                   {passwordError}
@@ -284,37 +265,37 @@ const AuthPage = () => {
             </div>
             {isSignUp && (
               <div>
-                <label htmlFor="confirm-password" className="sr-only">
-                  Confirm Password
-                </label>
-                <Input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm Password"
-                  className={cn(
-                    "appearance-none rounded-md relative block w-full px-3 py-3 text-calm-900 border border-calm-300 placeholder-calm-500 focus:outline-none focus:ring-mind-500 focus:border-mind-500 focus:z-10 sm:text-sm",
-                    confirmPasswordError &&
-                      "border-red-500 focus:ring-red-500 focus:border-red-500"
-                  )}
-                />
-                {/* <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="focus:outline-none"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-5 w-5 text-calm-400" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-calm-400" />
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    name="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm Password"
+                    className={cn(
+                      "appearance-none rounded-md relative block w-full px-3 py-3 text-calm-900 border border-calm-300 placeholder-calm-500 focus:outline-none focus:ring-mind-500 focus:border-mind-500 focus:z-10 sm:text-sm",
+                      confirmPasswordError &&
+                        "border-red-500 focus:ring-red-500 focus:border-red-500"
                     )}
-                  </button>
-                </div> */}
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-5 w-5 text-calm-500" />
+                      ) : (
+                        <Eye className="h-5 w-5 text-calm-500" />
+                      )}
+                    </button>
+                  </div>
+                </div>
                 {confirmPasswordError && (
                   <p
                     className="mt-2 text-sm text-red-600"
@@ -325,30 +306,6 @@ const AuthPage = () => {
                 )}
               </div>
             )}
-            <div className="flex items-center justify-between">
-              {/* <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-mind-600 focus:ring-mind-500 border-calm-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-calm-900"
-                >
-                  Remember me
-                </label>
-              </div> */}
-              {/* <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-mind-600 hover:text-mind-500"
-                >
-                  Forgot your password?
-                </a>
-              </div> */}
-            </div>
             <div>
               <Button
                 type="submit"
@@ -373,13 +330,6 @@ const AuthPage = () => {
             </div>
           </form>
         </div>
-        {/* <div className="flex justify-center text-sm">
-          <a href="#" className="font-medium text-mind-600 hover:text-mind-500">
-            {isSignUp
-              ? "Already have an account? Sign in"
-              : "Need an account? Sign up"}
-          </a>
-        </div> */}
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @layer base {
   :root {
@@ -89,7 +88,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   /* Custom page transitions */
@@ -128,19 +127,19 @@
   .animation-delay-100 {
     animation-delay: 0.1s;
   }
-  
+
   .animation-delay-200 {
     animation-delay: 0.2s;
   }
-  
+
   .animation-delay-300 {
     animation-delay: 0.3s;
   }
-  
+
   .animation-delay-400 {
     animation-delay: 0.4s;
   }
-  
+
   .animation-delay-500 {
     animation-delay: 0.5s;
   }
@@ -165,7 +164,7 @@
     @apply bg-white rounded-2xl shadow-md p-6 transition-all duration-300 
            hover:shadow-lg border border-calm-100;
   }
-  
+
   .input-field {
     @apply w-full px-4 py-3 rounded-lg border border-calm-200 
            focus:outline-none focus:ring-2 focus:ring-mind-500 

@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Handle scroll effect for navbar styling
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -20,22 +21,30 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu when route changes
   useEffect(() => {
-    // Close mobile menu when route changes
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  const menuItems = [
+  // Define menu items based on authentication state
+  const signedInMenuItems = [
     { path: "/", label: "Home" },
     { path: "/therapists", label: "Find Therapists" },
-    { path: "/medications", label: "Order Medications" },
-    { path: "/about", label: "About Us" },
-    { path: "/contact", label: "Contact" },
+    { path: "/chatbot", label: "Chatbot" }, // Placeholder for now
+    { path: "/profile", label: "Profile" }, // Placeholder for now
   ];
 
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
+  const signedOutMenuItems = [
+    { path: "/", label: "Home" },
+    // { path: "/about", label: "About Us" },
+    // { path: "/contact", label: "Contact" },
+    { path: "/register", label: "Get Started" },
+  ];
+
+  const menuItems = user ? signedInMenuItems : signedOutMenuItems;
+
+  // Helper function to check active route
+  const isActive = (path) => location.pathname === path;
 
   return (
     <nav
@@ -46,6 +55,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
+        {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-semibold text-mind-700 flex items-center"
@@ -77,13 +87,6 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
-          <Link
-            to="/register"
-            className="opacity-0 animate-fade-in btn-primary"
-            style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}
-          >
-            Get Started
-          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -117,12 +120,6 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-            <Link
-              to="/register"
-              className="btn-primary w-full text-center mt-4"
-            >
-              Get Started
-            </Link>
           </div>
         </div>
       )}

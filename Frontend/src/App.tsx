@@ -1,10 +1,16 @@
+import React, { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
@@ -16,17 +22,17 @@ import NotFound from "./pages/NotFound";
 import RegisterPage from "./pages/Register";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
-import Home from "./pages/homePages/Home";
+import Home from "./pages/Home";
+import Chatbot from "./components/ChatBot";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any>(null); // State to store the user object
+  const [user, setUser] = useState<any>(null);
   const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
-    // Simulate initial loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
@@ -37,10 +43,10 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);
-      setInitialLoad(false); // Set to false after the initial check
+      setInitialLoad(false);
     });
 
-    return () => unsubscribe(); // Cleanup the listener
+    return () => unsubscribe();
   }, []);
 
   if (isLoading) {
@@ -60,44 +66,56 @@ const App = () => {
   }
 
   if (initialLoad) {
-    return null; // Or a loading spinner if you prefer
-  }
-
-  if (user) {
-    return (
-      <BrowserRouter>
-        <Home />
-      </BrowserRouter>
-    );
+    return null;
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow">
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/therapists" element={<Therapists />} />
-                  <Route path="/medications" element={<Medications />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </AnimatePresence>
-            </main>
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen">
+          <Navbar user={user} />
+          <MainContent user={user} />
+          <AppFooter />
+        </div>
+      </BrowserRouter>
     </QueryClientProvider>
   );
+};
+
+const MainContent = ({ user }) => {
+  return (
+    <main className="flex-grow">
+      <AnimatePresence mode="wait">
+        <Routes>
+          {user ? (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/therapists" element={<Therapists />} />
+              <Route path="/chatbot" element={<Chatbot />} />
+              <Route path="/profile" element={<div />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/register" element={<Navigate to="/" />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          )}
+        </Routes>
+      </AnimatePresence>
+    </main>
+  );
+};
+
+const AppFooter = () => {
+  const location = useLocation();
+  const showFooter = location.pathname !== "/chatbot";
+
+  return showFooter ? <Footer /> : null;
 };
 
 export default App;
