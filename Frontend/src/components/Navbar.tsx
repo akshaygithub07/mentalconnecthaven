@@ -28,7 +28,7 @@ const Navbar = () => {
   const menuItems = [
     { path: "/", label: "Home" },
     { path: "/therapists", label: "Find Therapists" },
-    { path: "/medications", label: "Order Medications" },
+    // { path: "/medications", label: "Order Medications" },
     { path: "/register", label: "Ai Therapist" },
     { path: "/contact", label: "Contact" },
   ];

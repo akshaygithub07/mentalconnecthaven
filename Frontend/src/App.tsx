@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import Therapists from "./pages/Therapists";
-import Medications from "./pages/Medications";
+// import Medications from "./pages/Medications";
 // import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -84,7 +84,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/therapists" element={<Therapists />} />
-                  <Route path="/medications" element={<Medications />} />
+                
                   
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/register" element={<RegisterPage />} />
