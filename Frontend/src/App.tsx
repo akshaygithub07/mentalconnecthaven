@@ -24,6 +24,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 import Home from "./pages/Home";
 import Chatbot from "./components/ChatBot";
+import { Profile } from "./components/Profile";
 
 const queryClient = new QueryClient();
 
@@ -92,7 +93,7 @@ const MainContent = ({ user }) => {
               <Route path="/" element={<Home />} />
               <Route path="/therapists" element={<Therapists />} />
               <Route path="/chatbot" element={<Chatbot />} />
-              <Route path="/profile" element={<div />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/register" element={<Navigate to="/" />} />
             </>

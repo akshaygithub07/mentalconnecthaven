@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile, // Import updateProfile
 } from "firebase/auth";
 import { Toaster, toast } from "sonner";
 import { auth } from "../firebase/firebase";
@@ -90,8 +91,19 @@ const AuthPage = () => {
       setLoading(true);
       try {
         if (isSignUp) {
-          await createUserWithEmailAndPassword(auth, email, password);
-          console.log("Sign Up Successful:");
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const user = userCredential.user;
+
+          // Update the user's profile with the name
+          await updateProfile(user, {
+            displayName: name,
+          });
+
+          console.log("Sign Up Successful:", user);
           toast.success("Account created successfully!");
         } else {
           await signInWithEmailAndPassword(auth, email, password);
