@@ -55,11 +55,11 @@ const Footer = () => {
                   Order Medications
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/about" className="text-calm-600 hover:text-mind-600 transition-colors duration-300">
                   About Us
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/contact" className="text-calm-600 hover:text-mind-600 transition-colors duration-300">
                   Contact Us

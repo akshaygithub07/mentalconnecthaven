@@ -91,10 +91,11 @@ const MedicationCard = ({
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              
+              <a href = '/register'>
               <button className="bg-mind-600 text-white p-2 rounded-lg hover:bg-mind-700 transition-colors">
                 <ShoppingCart className="w-5 h-5" />
               </button>
+              </a>
             </div>
           ) : (
             <span className="text-destructive font-medium">Out of stock</span>

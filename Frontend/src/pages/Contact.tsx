@@ -76,9 +76,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-calm-900 mb-2">Our Location</h3>
                     <p className="text-calm-600">
-                      1234 Mental Health Avenue, Suite 567<br />
-                      New York, NY 10001<br />
-                      United States
+                    1234 Mental Health Avenue, Suite 567, New York, NY 10001
                     </p>
                   </div>
                 </div>

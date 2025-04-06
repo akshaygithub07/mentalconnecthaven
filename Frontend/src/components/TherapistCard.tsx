@@ -37,7 +37,7 @@ const TherapistCard = ({
       
       <div className="flex flex-col md:flex-row gap-6">
         <div className="relative w-full md:w-1/3">
-          <div className="aspect-square rounded-xl overflow-hidden bg-calm-100">
+          <div className="aspect-square rounded-xl overflow-hidden bg-calm-100"> 
             <img
               src={image || "https://via.placeholder.com/300x300?text=Therapist"}
               alt={name}
@@ -76,10 +76,12 @@ const TherapistCard = ({
           </p>
           
           <div className="pt-2 flex flex-col sm:flex-row gap-3 transition-opacity duration-300">
+            <a href = '/register'>
             <button className="btn-primary flex items-center justify-center gap-2">
               <Calendar className="w-4 h-4" />
               <span>Book Session</span>
             </button>
+            </a>
             <button className="btn-secondary flex items-center justify-center gap-2">
               <MessageCircle className="w-4 h-4" />
               <span>Message</span>

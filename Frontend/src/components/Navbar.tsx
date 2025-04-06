@@ -29,7 +29,7 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/therapists", label: "Find Therapists" },
     { path: "/medications", label: "Order Medications" },
-    { path: "/about", label: "About Us" },
+    { path: "/register", label: "Ai Therapist" },
     { path: "/contact", label: "Contact" },
   ];
 
