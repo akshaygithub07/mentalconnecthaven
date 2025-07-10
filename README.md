@@ -1,9 +1,11 @@
-Certainly! Based on the repository structure and the details you've provided earlier, here's a tailored `README.md` for your project:
 
 ```markdown
 # MentalConnectHaven
 
 MentalConnectHaven is a comprehensive platform designed to assist users in finding therapists that align with their budget, availability, and specialties. Additionally, the platform offers daily mood tracking and provides personalized activity suggestions. An AI-powered therapist chatbot, built using Retrieval-Augmented Generation (RAG), LLaMA API, and LangChain, offers users immediate support.
+
+Here is the link to our demo website: https://menatlhaven.netlify.app/
+Sign Up to explore the features
 
 ## Features
 
